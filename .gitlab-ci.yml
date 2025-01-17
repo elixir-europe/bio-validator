@@ -50,9 +50,6 @@ deploy_test_primary:
   environment:
     name: primary_hl_test
     url: https://wwwdev.ebi.ac.uk/biosamples/biovalidator
-  only:
-    - main
-    - dev
   when: manual
   extends: .kube_deploy_script
 
@@ -63,9 +60,6 @@ deploy_test_fallback:
   environment:
     name: fallback_hx_test
     url: https://wwwdev.ebi.ac.uk/biosamples/biovalidator
-  only:
-    - main
-    - dev
   when: manual
   extends: .kube_deploy_script
 
