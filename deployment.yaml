@@ -5,7 +5,7 @@ metadata:
     app: biovalidator
   name: biovalidator
 spec:
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:

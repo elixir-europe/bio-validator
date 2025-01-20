@@ -13,7 +13,7 @@ spec:
     - host: ${HOST}
       http:
         paths:
-          - path: /biosamples/biovalidator(/|$)(.*)
+          - path: /ait/biovalidator(/|$)(.*)
             pathType: Prefix
             backend:
               service:
