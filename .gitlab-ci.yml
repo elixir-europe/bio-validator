@@ -23,7 +23,7 @@ build_docker_image:
   after_script:
     - docker logout ${CI_REGISTRY}
 
-deploy_dev_primary:
+deploy_dev:
   variables:
     NAMESPACE: biosamples-dev
     HOST: wwwint.ebi.ac.uk
