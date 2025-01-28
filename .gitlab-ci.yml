@@ -28,36 +28,50 @@ deploy_dev:
     NAMESPACE: biosamples-dev
     HOST: wwwint.ebi.ac.uk
   environment:
-    name: dev
+    name: primary_hl_dev
     url: https://wwwint.ebi.ac.uk/biosamples/biovalidator
   when: manual
   extends: .kube_deploy_script
 
-deploy_test:
+deploy_test_primary:
   variables:
     NAMESPACE: biosamples-test
     HOST: wwwdev.ebi.ac.uk
   environment:
-    name: test
+    name: primary_hl_test
     url: https://wwwdev.ebi.ac.uk/biosamples/biovalidator
-  only:
-    - main
-    - dev
   when: manual
   extends: .kube_deploy_script
 
-deploy_prod:
+deploy_test_fallback:
+  variables:
+    NAMESPACE: biosamples-test
+    HOST: wwwdev.ebi.ac.uk
+  environment:
+    name: fallback_hx_test
+    url: https://wwwdev.ebi.ac.uk/biosamples/biovalidator
+  when: manual
+  extends: .kube_deploy_script
+
+deploy_prod_primary:
   variables:
     NAMESPACE: biosamples-prod
     HOST: www.ebi.ac.uk
   environment:
-    name: prod
+    name: primary_hl_prod
     url: https://www.ebi.ac.uk/biosamples/biovalidator
-  only:
-    - dev
-    - main
   when: manual
   extends: .kube_deploy_script
+
+deploy_prod_fallback:
+    variables:
+      NAMESPACE: biosamples-prod
+      HOST: www.ebi.ac.uk
+    environment:
+      name: fallback_hx_prod
+      url: https://www.ebi.ac.uk/biosamples/biovalidator
+    when: manual
+    extends: .kube_deploy_script
 
 # todo discuss: do we need AIT biovalidator to share with others?
 # todo discuss: what are the options to make biosamples internal only: remove ingress and make service=ClusterIP?
@@ -81,7 +95,4 @@ deploy_prod:
     - kubectl create secret docker-registry $DOCKER_PULL_SECRET --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD
     - envsubst < deployment.yaml > kubernetes.yaml
     - kubectl apply -f kubernetes.yaml
-    - envsubst < ingress_template.yaml > ingress.yaml
-    - cat ingress.yaml
-    - kubectl apply -f ingress.yaml
     - kubectl rollout restart deployments biovalidator
