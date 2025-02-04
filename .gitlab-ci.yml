@@ -9,6 +9,7 @@ variables:
 stages:
   - build
   - deploy
+  - test
 
 build_docker_image:
   image: docker:latest
@@ -96,3 +97,9 @@ deploy_prod_fallback:
     - envsubst < deployment.yaml > kubernetes.yaml
     - kubectl apply -f kubernetes.yaml
     - kubectl rollout restart deployments biovalidator
+
+
+trigger_api_tests:
+  stage: test
+  trigger:
+    project: FAIRification/biosamples-api-tests
