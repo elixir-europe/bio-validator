@@ -101,5 +101,6 @@ deploy_prod_fallback:
 
 trigger_api_tests:
   stage: test
+  when: manual
   trigger:
     project: FAIRification/biosamples-api-tests
