@@ -104,3 +104,7 @@ trigger_api_tests:
   when: manual
   trigger:
     project: FAIRification/biosamples-api-tests
+  variables:
+    BSD_ENV: "wwwint"
+    FOLDER: "biovalidator"
+    TRIGGER_SERVICE: "true"
