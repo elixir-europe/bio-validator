@@ -24,32 +24,32 @@ build_docker_image:
   after_script:
     - docker logout ${CI_REGISTRY}
 
-deploy_dev:
+deploy_int:
   variables:
     NAMESPACE: biosamples-dev
     HOST: wwwint.ebi.ac.uk
   environment:
-    name: primary_hl_dev
+    name: primary_hl_int
     url: https://wwwint.ebi.ac.uk/biosamples/biovalidator
   when: manual
   extends: .kube_deploy_script
 
-deploy_test_primary:
+deploy_dev_primary:
   variables:
     NAMESPACE: biosamples-test
     HOST: wwwdev.ebi.ac.uk
   environment:
-    name: primary_hl_test
+    name: primary_hl_dev
     url: https://wwwdev.ebi.ac.uk/biosamples/biovalidator
   when: manual
   extends: .kube_deploy_script
 
-deploy_test_fallback:
+deploy_dev_fallback:
   variables:
     NAMESPACE: biosamples-test
     HOST: wwwdev.ebi.ac.uk
   environment:
-    name: fallback_hx_test
+    name: fallback_hx_dev
     url: https://wwwdev.ebi.ac.uk/biosamples/biovalidator
   when: manual
   extends: .kube_deploy_script
