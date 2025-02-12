@@ -26,7 +26,6 @@ build_docker_image:
 
 deploy_int:
   variables:
-    NAMESPACE: biosamples-dev
     HOST: wwwint.ebi.ac.uk
   environment:
     name: primary_hl_int
@@ -36,7 +35,6 @@ deploy_int:
 
 deploy_dev_primary:
   variables:
-    NAMESPACE: biosamples-test
     HOST: wwwdev.ebi.ac.uk
   environment:
     name: primary_hl_dev
@@ -46,7 +44,6 @@ deploy_dev_primary:
 
 deploy_dev_fallback:
   variables:
-    NAMESPACE: biosamples-test
     HOST: wwwdev.ebi.ac.uk
   environment:
     name: fallback_hx_dev
@@ -56,7 +53,6 @@ deploy_dev_fallback:
 
 deploy_prod_primary:
   variables:
-    NAMESPACE: biosamples-prod
     HOST: www.ebi.ac.uk
   environment:
     name: primary_hl_prod
@@ -66,7 +62,6 @@ deploy_prod_primary:
 
 deploy_prod_fallback:
     variables:
-      NAMESPACE: biosamples-prod
       HOST: www.ebi.ac.uk
     environment:
       name: fallback_hx_prod
@@ -90,8 +85,9 @@ deploy_prod_fallback:
   stage: deploy
   image: dtzar/helm-kubectl
   script:
-    - kubectl create namespace $NAMESPACE || true
-    - kubectl config set-context --current --namespace=${NAMESPACE}
+    - kubectl create namespace ${K8S_NAMESPACE} || true
+    - echo ${K8S_NAMESPACE}
+    - kubectl config set-context --current --namespace=${K8S_NAMESPACE}
     - kubectl delete secret $DOCKER_PULL_SECRET || true
     - kubectl create secret docker-registry $DOCKER_PULL_SECRET --docker-server=$CI_REGISTRY --docker-username=$CI_DEPLOY_USER --docker-password=$CI_DEPLOY_PASSWORD
     - envsubst < deployment.yaml > kubernetes.yaml
