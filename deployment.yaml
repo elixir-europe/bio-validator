@@ -26,6 +26,19 @@ spec:
           args:
             - "--baseUrl"
             - "/biosamples/biovalidator"
+          env:
+            - name: HTTP_PROXY
+              value: $HTTP_PROXY
+            - name: HTTPS_PROXY
+              value: $HTTP_PROXY
+            - name: NO_PROXY
+              value: $NO_PROXY
+            - name: http_proxy
+              value: $HTTP_PROXY
+            - name: https_proxy
+              value: $HTTP_PROXY
+            - name: no_proxy
+              value: $NO_PROXY
 
 ---
 apiVersion: v1
